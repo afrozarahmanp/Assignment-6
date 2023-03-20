@@ -31,7 +31,7 @@ console.log(aiData);
                     <h6><i class="fa-regular fa-calendar"></i><span> </span>${aiData.published_in}</h6>
                 </div>
                 <div>
-                    <button class= "border-0 bg-white " data-bs-toggle="modal" data-bs-target="#AiHubModal" onclick="aiHubModal('${aiData.id}')" >
+                    <button class= "border-0 bg-white " data-bs-toggle="modal" data-bs-target="#AiHubModal" onclick="aiHubModalData('${aiData.id}')" >
                     <i class="fa-solid fa-circle-arrow-right text-danger-emphasis opacity-50 fs-3"></i>
                     </button>
                 
@@ -51,10 +51,10 @@ console.log(aiData);
 aiHubData();
 
 // const aiHubModal = id
-const aiHubModal = async (id) => {
+const aiHubModalData = async (id) => {
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    hubData(data.data.tools);
+console.log(data);
 
 }
