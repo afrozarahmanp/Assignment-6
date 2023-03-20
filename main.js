@@ -107,6 +107,7 @@ const aiHubModalData = async (id) => {
 aiHubModalData('01');
 
 const aiModal = (modalData) => {
+  console.log(modalData.pricing[0].price);
     const aiHubModal = document.getElementById('ai-hub-modal');
     aiHubModal.textContent = '';
 
@@ -116,25 +117,43 @@ const aiModal = (modalData) => {
         <div class="card border border-danger bg-danger-subtle opacity-75">
         <h4 class=" text-black card-body ">${modalData.description}</h4>
         <div class="card-body">
-        //-------------------------------------------- subscription----------------------------------------------------------------------
+      
           <div id="subscription" class="row row-cols-1 row-cols-md-3 g-3">
-
+          <div class="col">
+          <div class="card border border-secondary-subtle bg-white text-center">
+            <p class="mt-3 text-success fw-bold">${modalData.pricing[0].price? modalData.pricing[0].price : "Free subscription"}
+            <br> ${modalData.pricing[0].plan? modalData.pricing[0].plan : "/Basic"} </p>
           </div>
+        </div>
+        <div class="col">
+          <div class="card border border-secondary-subtle bg-white text-center">
+            <p class="mt-3 text-warning fw-bold">${modalData.pricing[1].price? modalData.pricing[1].price : "Free subscription"}
+            <br> ${modalData.pricing[1].plan? modalData.pricing[1].plan : "/Pro"}</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card border border-secondary-subtle bg-white text-center">
+            <p class="mt-3 text-danger fw-bold">${modalData.pricing[2].price? modalData.pricing[2].price : "Free subscription"}
+            <br> ${modalData.pricing[2].plan? modalData.pricing[2].plan : "/Enterprise"} </p>
+          </div>
+        </div>
+          </div>
+
           <div class="d-flex justify-content-between m-3">
+        
             <div>
-              <h4 class=" text-black card-title mt-3">Card title</h4>
-              <ul>
-                <li>blah</li>
-                <li>blah</li>
-                <li>blah</li>
+              <h4 class=" text-black card-title mt-3">Features</h4>
+              <ul id="features-id">
+              <li>${modalData.features[1].feature_name} </li>
+              <li>${modalData.features[2].feature_name} </li>
+              <li>${modalData.features[3].feature_name} </li>
               </ul>
             </div>
+         
+
             <div>
-              <h4 class=" text-black card-title mt-3 ">Card title</h4>
-              <ul>
-                <li>blah</li>
-                <li>blah</li>
-                <li>blah</li>
+              <h4 class=" text-black card-title mt-3 ">Integrations</h4>
+              <ul id= "Integrations-id">
               </ul>
             </div>
 
@@ -143,34 +162,40 @@ const aiModal = (modalData) => {
         </div>
       </div>
         `
-    
+    aiHubModal.appendChild(modalDiv1);
+
+    const modalDiv2 = document.createElement('div');
+    modalDiv2.classList.add('col');
+        modalDiv2.innerHTML = `
+        <div class="card">
+          <img src="${modalData.image_link[0]}" class="card-img-top" alt="...">
+          <div class="card-body text-center">
+            <h4 class="card-title">${modalData.input_output_examples[0].input}</h4>
+            <p class="card-text">${modalData.input_output_examples[0].output}</p>
+          </div>
+        </div> 
+        `
+        aiHubModal.appendChild(modalDiv2);
 
 
-
+  integrationsDetails(modalData);
 }
 
-const subscriptionDetails = (modalData) => {
 
-    const subscription = document.getElementById('subscription');
-    subscription.innerHTML = `
-            <div class="col">
-              <div class="card border border-secondary-subtle bg-white text-center">
-                <p class="mt-3 text-success fw-bold">${modalData.pricing[0].price? modalData.pricing[0] : "Free subscription"}
-                <br> ${modalData.pricing[0].plan? modalData.pricing[0].plan : "/Basic"} </p>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card border border-secondary-subtle bg-white text-center">
-                <p class="mt-3 text-warning fw-bold">${modalData.pricing[1].price? modalData.pricing[1] : "Free subscription"}
-                <br> ${modalData.pricing[1].plan? modalData.pricing[1].plan : "/Pro"}</p>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card border border-secondary-subtle bg-white text-center">
-                <p class="mt-3 text-danger fw-bold">${modalData.pricing[2].price? modalData.pricing[2] : "Free subscription"}
-                <br> ${modalData.pricing[2].plan? modalData.pricing[2].plan : "/Enterprise"} </p>
-              </div>
-            </div>
-    `;
+const integrationsDetails = (modalData) => {
+
+    const integrationsList = document.getElementById('Integrations-id');
+    console.log(modalData.integrations);
+    if(modalData.integrations !=null){
+      const integration = modalData.integrations;
+      for (let i = 0; i < integration.length; i++){
+        const li = document.createElement('li');
+        li.innerHTML = integration[i];
+        integrationsList.appendChild(li);
+      }
+    }
+    else {
+
+    }
 
 }
