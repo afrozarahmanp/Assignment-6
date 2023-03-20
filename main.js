@@ -1,16 +1,37 @@
-const aiHubData = async () => {
+const aiHubData = async (value) => {
     const url = `https://openapi.programming-hero.com/api/ai/tools`;
     const res = await fetch(url);
     const data = await res.json();
-    hubData(data.data.tools);
+    hubData(data.data.tools, value);
 
 }
 
-const hubData = (aiDatas) => {
+const hubData = (aiDatas, value = 0) => {
 console.log(aiDatas);
     const hubContainer = document.getElementById('hub-container');
+    hubContainer.textContent = '';
+
+    const showAll = document.getElementById('show-all');
+
+    if(value ===0){
+        aiDatas = aiDatas.slice(0,6);
+        showAll.classList.remove("d-none");
+
+    }
+    else if (value===1){
+        showAll.classList.add("d-none");
+    }
+
+    if(value===2){
+        aiDatas = aiDatas.sort(
+            (x, y) => new Date(y.published_in) - new Date(x.published_in)
+
+        );
+        showAll.classList.add("d-none");
+    }
+
     aiDatas.forEach(aiData => {
-console.log(aiData);
+        console.log(aiData);
         const dataDiv = document.createElement('div');
         dataDiv.classList.add('col');
         dataDiv.innerHTML = `
@@ -44,6 +65,7 @@ console.log(aiData);
 
 
     });
+    toggleSpinner(false);
 
 
 }
@@ -58,3 +80,28 @@ const aiHubModalData = async (id) => {
 console.log(data);
 
 }
+
+
+const toggleSpinner = isLoading => {
+    const loaderSection = document.getElementById('loader')
+    if(isLoading){
+        loaderSection.classList.remove("d-none")
+    }
+    else {
+        loaderSection.classList.add("d-none")
+    }
+}
+
+
+// Show all
+document.getElementById('show-all-btn').addEventListener('click',function(){
+    toggleSpinner(true);
+    aiHubData(1);
+
+})
+ 
+document.getElementById('sort-btn').addEventListener('click', function(){
+    toggleSpinner(true);
+    aiHubData(2);
+
+})
